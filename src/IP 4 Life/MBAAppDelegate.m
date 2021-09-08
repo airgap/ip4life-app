@@ -2,6 +2,10 @@
 
 @implementation MBAAppDelegate
 
+NSString *ipAddress;
+
+bool copyPending = false;
+
 - (void)awakeFromNib {
     _responseData = [NSMutableData new];
   _statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
@@ -29,7 +33,7 @@
 - (void)refreshIp {
 //    NSImage *menuIcon       = [NSImage imageNamed:@"Menu Icon"];
 //    [[self statusItem] setImage:menuIcon];
-    [[self statusItem] setTitle:@"???.???.??.???"];
+    [[self statusItem] setTitle:@"................."];
     NSURL *url = [NSURL URLWithString:@"https://ip4.life/auto"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
     
@@ -50,9 +54,13 @@
 
 - (void) connectionDidFinishLoading:(NSURLConnection *)connection {
   
-  NSString* responseString = [[NSString alloc] initWithData:_responseData encoding:NSUTF8StringEncoding];
+  ipAddress = [[NSString alloc] initWithData:_responseData encoding:NSUTF8StringEncoding];
 //  NSLog(@"the html from google was %@", responseString);
-    [[self statusItem] setTitle:responseString];
+    if(copyPending) {
+        copyPending = false;
+        [self copyIp];
+    }
+    [[self statusItem] setTitle:ipAddress];
     [[self ipAddressItem] setHidden:true];
 //    [[self statusItem] setImage:nil];
 //    [[self ipAddressItem] setTitle:[NSString stringWithFormat:@"checked %@", [NSDate now]]];
@@ -64,6 +72,19 @@
     [[self ipAddressItem] setHidden:false];
 }
 
+- (IBAction)copyAction:(id)sender {
+    [self copyIp];
+}
+
+- (void) copyIp {
+    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+    [pasteboard clearContents];
+    [pasteboard setString:ipAddress forType:NSStringPboardType];
+}
+- (IBAction)refreshAndCopyAction:(id)sender {
+    copyPending = true;
+    [self refreshIp];
+}
 
 
 - (IBAction)show:(id)sender {

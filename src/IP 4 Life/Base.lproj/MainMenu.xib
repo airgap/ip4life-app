@@ -676,10 +676,22 @@
                         <action selector="menuAction:" target="494" id="qPJ-do-e4B"/>
                     </connections>
                 </menuItem>
+                <menuItem title="Copy" id="2Bk-92-vSa">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="copyAction:" target="494" id="xEI-80-3p2"/>
+                    </connections>
+                </menuItem>
                 <menuItem title="Refresh" id="Gxx-p0-c4m">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="refreshAction:" target="494" id="qkY-6C-RbI"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Refresh and Copy" id="w94-a2-Imy">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="refreshAndCopyAction:" target="494" id="hnk-zA-ppy"/>
                     </connections>
                 </menuItem>
                 <menuItem title="Quit" id="MTY-xM-R0q">
